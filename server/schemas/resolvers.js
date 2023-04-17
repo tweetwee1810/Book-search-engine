@@ -34,25 +34,41 @@ const resolvers = {
             const token = signToken(user);
             return {token, User};
         },
-
+        // add a new user by create a user and generate a token
         addUser: async (parent, {username, email, password}) => {
 
             const user = await User.create({username, email, password});
             const token = signToken(user);
             return {token, user};
             },
-
+            // adds the given book to the logged-in users' saved books
         saveBook: async (parent, args, context) =>{
             if (context.user) {
                 const updateUser = await User.findOneAndUpdate (
                     { _id: context.user._id }, 
                     { $addToSet: {saveBooks: args.input } },
                     {new: true}
-                )
+                );
+                return updateUser;
             }
-        }
-        }
+            throw new GraphQLerror ("you need to be logged in");
+        },
 
+        //remove the book with the given id
+        removeBook: async (parent, args, context) => {
+            if (context.user) {
+                const updateUser = await User.findByIdAndUpdate (
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: {bookId: args.bookId } } },
+                    {new: true}
+                );
+                return updateUser;
+            }
+            throw new GraphQLerror("You need to be logged in")
+        },
+        },
 
-    }
+    
+    };
+    module.exports = resolvers;
 
