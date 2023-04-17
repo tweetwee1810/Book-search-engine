@@ -35,8 +35,24 @@ const resolvers = {
             return {token, User};
         },
 
-        
+        addUser: async (parent, {username, email, password}) => {
+
+            const user = await User.create({username, email, password});
+            const token = signToken(user);
+            return {token, user};
+            },
+
+        saveBook: async (parent, args, context) =>{
+            if (context.user) {
+                const updateUser = await User.findOneAndUpdate (
+                    { _id: context.user._id }, 
+                    { $addToSet: {saveBooks: args.input } },
+                    {new: true}
+                )
+            }
+        }
+        }
 
 
     }
-}
+
