@@ -26,7 +26,7 @@ Clone the repository: git clone https://github.com/tweetwee1810/Book-search-engi
 
 ## Usage 
 
-Once the book search engine is running, open a https://booksearchengine000.herokuapp.com/
+Once the book search engine is running, open a https://book-search-engine-00.herokuapp.com
 From there, users can search for books by title, author, or keyword, and save their favorite books to a list for later reference.
 
 # Technology 

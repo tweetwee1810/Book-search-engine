@@ -44,9 +44,9 @@ const resolvers = {
             // adds the given book to the logged-in users' saved books
         saveBook: async (parent, args, context) =>{
             if (context.user) {
-                const updateUser = await User.findOneAndUpdate (
+                const updateUser = await User.findByIdAndUpdate (
                     { _id: context.user._id }, 
-                    { $addToSet: {saveBooks: args.input } },
+                    { $push: {savedBooks: args.input } },
                     {new: true}
                 );
                 return updateUser;
